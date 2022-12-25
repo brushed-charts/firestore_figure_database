@@ -1,0 +1,20 @@
+name: firestore_figure_saver
+description: Save on firestore all the figure drawn by user
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=2.19.0-374.0.dev <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  grapher_user_draw:
+    path: ../grapher_user_draw
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  mocktail: ">=0.3.0 <1.0.0"
