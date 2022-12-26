@@ -12,6 +12,7 @@ dependencies:
     path: ../grapher_user_draw
   flutter:
     sdk: flutter
+  cloud_firestore: ^4.3.0
 
 dev_dependencies:
   flutter_test:
