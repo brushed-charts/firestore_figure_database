@@ -1,11 +1,11 @@
 import 'package:firestore_figure_saver/anchor_to_json.dart';
 import 'package:grapher_user_draw/figure.dart';
 
-class FigureToJSON {
+class FigureConverter {
   final Figure _figure;
-  FigureToJSON(this._figure);
+  FigureConverter(this._figure);
 
-  Map<String, dynamic> convert() {
+  Map<String, dynamic> toJSON() {
     final result = <String, dynamic>{
       'name': _figure.tool.name,
       'groupID': _figure.groupID,
