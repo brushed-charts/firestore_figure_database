@@ -6,13 +6,13 @@ import 'package:grapher_user_draw/figure_database_interface.dart';
 class FirestoreFigureDatabase implements FigureDatabaseInterface {
   static const collectionPath = 'grapher_figure';
   final FirebaseFirestore firestore;
-  // late final figureCollectionRef;
-  FirestoreFigureDatabase(this.firestore);
-  // : figureCollectionRef = this
-  //       .firestore
-  //       .collection(collectionPath)
-  //       .withConverter(
-  //           fromFirestore: fromFirestore, toFirestore: toFirestore);
+  late final figureCollectionRef;
+
+  FirestoreFigureDatabase(this.firestore) {
+    // figureCollectionRef = firestore.collection(collectionPath).withConverter(
+    //     fromFirestore: fromFirestore,
+    //     toFirestore: (Figure figure, _) => FigureConverter.toJSON(figure));
+  }
 
   @override
   void delete(Figure figureToDelete, List<Figure> allFigures) {
@@ -32,7 +32,7 @@ class FirestoreFigureDatabase implements FigureDatabaseInterface {
 
   @override
   void save(Figure newFigure, List<Figure> allFigures) {
-    final jsonFigure = FigureConverter(newFigure).toJSON();
+    final jsonFigure = FigureConverter.toJSON(newFigure);
     firestore
         .collection(collectionPath)
         .doc(newFigure.groupID.toString())

@@ -34,7 +34,7 @@ void main() {
   group("Firestore save: ", () {
     test("Assert firestore document is named using figure groupID", () async {
       figureDB.save(figureA, [figureA]);
-      final jsonFigure = FigureConverter(figureA).toJSON();
+      final jsonFigure = FigureConverter.toJSON(figureA);
       final snapshot = await fakeFirestore
           .collection(FirestoreFigureDatabase.collectionPath)
           .doc(figureA.groupID.toString())
@@ -43,7 +43,7 @@ void main() {
     });
 
     test("Check that save function, write data in the database", () async {
-      final jsonFigure = FigureConverter(figureA).toJSON();
+      final jsonFigure = FigureConverter.toJSON(figureA);
       figureDB.save(figureA, [figureA]);
       final snapshot = await fakeFirestore
           .collection(FirestoreFigureDatabase.collectionPath)
@@ -57,8 +57,8 @@ void main() {
       figureDB.save(figureB, [figureA, figureB]);
       figureA.replace(anchorA, anchorC);
       figureDB.save(figureA, [figureA, figureB]);
-      final jsonWithNewAnchor = FigureConverter(figureA).toJSON();
-      final jsonFigureB = FigureConverter(figureB).toJSON();
+      final jsonWithNewAnchor = FigureConverter.toJSON(figureA);
+      final jsonFigureB = FigureConverter.toJSON(figureB);
       final snapshot = await fakeFirestore
           .collection(FirestoreFigureDatabase.collectionPath)
           .get();
@@ -82,7 +82,7 @@ void main() {
     test("Expect deletion of non existing figure do nothing", () async {
       figureDB.save(figureA, [figureA]);
       final nonSavedFigure = Figure(MockDrawTool(1));
-      final jsonFigureA = FigureConverter(figureA).toJSON();
+      final jsonFigureA = FigureConverter.toJSON(figureA);
       figureDB.delete(nonSavedFigure, [figureA]);
 
       final snapshot = await fakeFirestore

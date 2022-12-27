@@ -22,7 +22,7 @@ void main() {
   figure.add(anchorB);
 
   test("Assert figure JSON convertion is correct", () {
-    final jsonFigure = FigureConverter(figure).toJSON();
+    final jsonFigure = FigureConverter.toJSON(figure);
     expect(
         jsonFigure,
         equals(<String, dynamic>{
