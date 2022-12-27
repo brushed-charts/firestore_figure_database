@@ -6,7 +6,11 @@ class FigureToJSON {
   FigureToJSON(this._figure);
 
   Map<String, dynamic> convert() {
-    final result = <String, dynamic>{'name': _figure.tool.name};
+    final result = <String, dynamic>{
+      'name': _figure.tool.name,
+      'groupID': _figure.groupID,
+      'length': _figure.length
+    };
     final anchorList = <Map<String, dynamic>>[];
     for (final anchor in _figure.getAll()) {
       anchorList.add(AnchorToJSON(anchor).convert());

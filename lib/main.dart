@@ -1,20 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firestore_figure_saver/firestore_instance.dart';
+import 'package:firestore_figure_saver/figure_to_json.dart';
 import 'package:grapher_user_draw/figure.dart';
 import 'package:grapher_user_draw/figure_database_interface.dart';
 
-class FirestoreFigureSaver implements FigureDatabaseInterface {
-  late final _firestore = FirestoreInstance(useEmulator: true).getInstance;
+class FirestoreFigureDatabase implements FigureDatabaseInterface {
+  static const collectionPath = 'grapher_figure';
+  final FirebaseFirestore firestore;
+  FirestoreFigureDatabase(this.firestore);
 
   @override
-  void delete(Figure figureToDelete, List<Figure> allFigures) {}
-
-  @override
-  List<Figure> load() {
-    // TODO: implement load
-    throw UnimplementedError();
+  void delete(Figure figureToDelete, List<Figure> allFigures) {
+    firestore
+        .collection(collectionPath)
+        .doc(figureToDelete.groupID.toString())
+        .delete();
   }
 
   @override
-  void save(Figure newFigure, List<Figure> allFigures) {}
+  List<Figure> load() {
+    return [];
+  }
+
+  @override
+  void save(Figure newFigure, List<Figure> allFigures) {
+    final jsonFigure = FigureToJSON(newFigure).convert();
+    firestore
+        .collection(collectionPath)
+        .doc(newFigure.groupID.toString())
+        .set(jsonFigure);
+  }
 }

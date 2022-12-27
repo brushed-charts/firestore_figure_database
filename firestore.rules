@@ -4,8 +4,12 @@ service cloud.firestore {
     match /draw-stock/{stock} {
       allow write
     }
+    match /grapher_figure/{documentID} {
+      allow write, read, create, delete
+    }
     match /{document=**} {
       allow read, write: if false;
     }
+    
   }
 }

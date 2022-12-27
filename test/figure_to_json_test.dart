@@ -6,6 +6,7 @@ import 'package:grapher_user_draw/figure.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockDrawTool extends Mock implements DrawToolInterface {
+  MockDrawTool(this.maxLength);
   @override
   int maxLength = 2;
   @override
@@ -15,7 +16,7 @@ class MockDrawTool extends Mock implements DrawToolInterface {
 void main() {
   final anchorA = Anchor(x: DateTime.utc(2022, 12, 26, 12, 46), y: 1.334532);
   final anchorB = Anchor(x: DateTime.utc(2022, 12, 26, 13, 13), y: 1.32946);
-  final figure = Figure(MockDrawTool());
+  final figure = Figure(MockDrawTool(2));
   figure.add(anchorA);
   figure.add(anchorB);
 
