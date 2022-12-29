@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firestore_figure_saver/figure_converter.dart';
 import 'package:grapher_user_draw/figure.dart';
 import 'package:grapher_user_draw/figure_database_interface.dart';
 
@@ -32,10 +31,10 @@ class FirestoreFigureDatabase implements FigureDatabaseInterface {
 
   @override
   void save(Figure newFigure, List<Figure> allFigures) {
-    final jsonFigure = FigureConverter.toJSON(newFigure);
-    firestore
-        .collection(collectionPath)
-        .doc(newFigure.groupID.toString())
-        .set(jsonFigure);
+    //   final jsonFigure = FigureConverter.toJSON(newFigure);
+    //   firestore
+    //       .collection(collectionPath)
+    //       .doc(newFigure.groupID.toString())
+    //       .set(jsonFigure);
   }
 }

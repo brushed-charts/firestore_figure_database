@@ -14,6 +14,13 @@ class MockDrawTool extends Mock implements DrawToolInterface {
   String name = 'test tool';
 }
 
+class FakeFigureConverter extends FigureConverter {
+  @override
+  DrawToolInterface guessToolUsingItsName(String name) {
+    return MockDrawTool(2);
+  }
+}
+
 void main() {
   final anchorA = Anchor(x: DateTime.utc(2022, 12, 26, 12, 46), y: 1.334532);
   final anchorB = Anchor(x: DateTime.utc(2022, 12, 26, 13, 13), y: 1.32946);
@@ -21,26 +28,29 @@ void main() {
   figure.add(anchorA);
   figure.add(anchorB);
 
-  test("Assert figure JSON convertion is correct", () {
-    final jsonFigure = FigureConverter.toJSON(figure);
-    expect(
-        jsonFigure,
-        equals(<String, dynamic>{
-          'name': 'test tool',
-          'groupID': figure.groupID,
-          'length': figure.length,
-          'anchors': [
-            {
-              "datetime":
-                  Timestamp.fromDate(DateTime.utc(2022, 12, 26, 12, 46)),
-              'y': 1.334532
-            },
-            {
-              "datetime":
-                  Timestamp.fromDate(DateTime.utc(2022, 12, 26, 13, 13)),
-              'y': 1.32946
-            },
-          ]
-        }));
+  final expectedJsonFigure = <String, dynamic>{
+    'tool_name': 'test tool',
+    'group_id': figure.groupID,
+    'length': figure.length,
+    'anchors': [
+      {
+        "datetime": Timestamp.fromDate(DateTime.utc(2022, 12, 26, 12, 46)),
+        'y': 1.334532
+      },
+      {
+        "datetime": Timestamp.fromDate(DateTime.utc(2022, 12, 26, 13, 13)),
+        'y': 1.32946
+      },
+    ]
+  };
+
+  test("Assert figure can be wrote to JSON", () {
+    final jsonFigure = FakeFigureConverter().toJSON(figure);
+    expect(jsonFigure, equals(expectedJsonFigure));
+  });
+
+  test("Assert figure can be read from JSON", () {
+    final resultingFigure = FakeFigureConverter().fromJSON(expectedJsonFigure);
+    expect(resultingFigure, equals(figure));
   });
 }

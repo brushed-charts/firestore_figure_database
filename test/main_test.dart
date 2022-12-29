@@ -31,76 +31,76 @@ void main() {
     figureDB = FirestoreFigureDatabase(fakeFirestore);
   });
 
-  group("Firestore save: ", () {
-    test("Assert firestore document is named using figure groupID", () async {
-      figureDB.save(figureA, [figureA]);
-      final jsonFigure = FigureConverter.toJSON(figureA);
-      final snapshot = await fakeFirestore
-          .collection(FirestoreFigureDatabase.collectionPath)
-          .doc(figureA.groupID.toString())
-          .get();
-      expect(snapshot.data(), jsonFigure);
-    });
+  // group("Firestore save: ", () {
+  //   test("Assert firestore document is named using figure groupID", () async {
+  //     figureDB.save(figureA, [figureA]);
+  //     final jsonFigure = FigureConverter.toJSON(figureA);
+  //     final snapshot = await fakeFirestore
+  //         .collection(FirestoreFigureDatabase.collectionPath)
+  //         .doc(figureA.groupID.toString())
+  //         .get();
+  //     expect(snapshot.data(), jsonFigure);
+  //   });
 
-    test("Check that save function, write data in the database", () async {
-      final jsonFigure = FigureConverter.toJSON(figureA);
-      figureDB.save(figureA, [figureA]);
-      final snapshot = await fakeFirestore
-          .collection(FirestoreFigureDatabase.collectionPath)
-          .get();
-      expect(snapshot.docs.length, equals(1));
-      expect(snapshot.docs.first.data(), equals(jsonFigure));
-    });
+  //   test("Check that save function, write data in the database", () async {
+  //     final jsonFigure = FigureConverter.toJSON(figureA);
+  //     figureDB.save(figureA, [figureA]);
+  //     final snapshot = await fakeFirestore
+  //         .collection(FirestoreFigureDatabase.collectionPath)
+  //         .get();
+  //     expect(snapshot.docs.length, equals(1));
+  //     expect(snapshot.docs.first.data(), equals(jsonFigure));
+  //   });
 
-    test("Assert figure with the same groupID is updated not added", () async {
-      figureDB.save(figureA, [figureA]);
-      figureDB.save(figureB, [figureA, figureB]);
-      figureA.replace(anchorA, anchorC);
-      figureDB.save(figureA, [figureA, figureB]);
-      final jsonWithNewAnchor = FigureConverter.toJSON(figureA);
-      final jsonFigureB = FigureConverter.toJSON(figureB);
-      final snapshot = await fakeFirestore
-          .collection(FirestoreFigureDatabase.collectionPath)
-          .get();
-      expect(snapshot.docs.length, equals(2));
-      expect(snapshot.docs.first.data(), equals(jsonWithNewAnchor));
-      expect(snapshot.docs.last.data(), equals(jsonFigureB));
-    });
-  });
+  //   test("Assert figure with the same groupID is updated not added", () async {
+  //     figureDB.save(figureA, [figureA]);
+  //     figureDB.save(figureB, [figureA, figureB]);
+  //     figureA.replace(anchorA, anchorC);
+  //     figureDB.save(figureA, [figureA, figureB]);
+  //     final jsonWithNewAnchor = FigureConverter.toJSON(figureA);
+  //     final jsonFigureB = FigureConverter.toJSON(figureB);
+  //     final snapshot = await fakeFirestore
+  //         .collection(FirestoreFigureDatabase.collectionPath)
+  //         .get();
+  //     expect(snapshot.docs.length, equals(2));
+  //     expect(snapshot.docs.first.data(), equals(jsonWithNewAnchor));
+  //     expect(snapshot.docs.last.data(), equals(jsonFigureB));
+  //   });
+  // });
 
-  group("Firestore delete: ", () {
-    test("Assert figure is deleted from database", () async {
-      figureDB.save(figureA, [figureA]);
-      figureDB.delete(figureA, []);
-      final docCount = (await fakeFirestore
-              .collection(FirestoreFigureDatabase.collectionPath)
-              .get())
-          .size;
-      expect(docCount, equals(0));
-    });
+  // group("Firestore delete: ", () {
+  //   test("Assert figure is deleted from database", () async {
+  //     figureDB.save(figureA, [figureA]);
+  //     figureDB.delete(figureA, []);
+  //     final docCount = (await fakeFirestore
+  //             .collection(FirestoreFigureDatabase.collectionPath)
+  //             .get())
+  //         .size;
+  //     expect(docCount, equals(0));
+  //   });
 
-    test("Expect deletion of non existing figure do nothing", () async {
-      figureDB.save(figureA, [figureA]);
-      final nonSavedFigure = Figure(MockDrawTool(1));
-      final jsonFigureA = FigureConverter.toJSON(figureA);
-      figureDB.delete(nonSavedFigure, [figureA]);
+  //   test("Expect deletion of non existing figure do nothing", () async {
+  //     figureDB.save(figureA, [figureA]);
+  //     final nonSavedFigure = Figure(MockDrawTool(1));
+  //     final jsonFigureA = FigureConverter.toJSON(figureA);
+  //     figureDB.delete(nonSavedFigure, [figureA]);
 
-      final snapshot = await fakeFirestore
-          .collection(FirestoreFigureDatabase.collectionPath)
-          .get();
-      expect(snapshot.docs.length, equals(1));
-      expect(snapshot.docs.first.data(), equals(jsonFigureA));
-    });
-  });
+  //     final snapshot = await fakeFirestore
+  //         .collection(FirestoreFigureDatabase.collectionPath)
+  //         .get();
+  //     expect(snapshot.docs.length, equals(1));
+  //     expect(snapshot.docs.first.data(), equals(jsonFigureA));
+  //   });
+  // });
 
-  group("Firestore load: ", () {
-    // test("Assert saved figure can be loaded", () async {
-    //   figureDB.save(figureA, [figureA]);
-    //   figureDB.save(figureB, [figureA, figureB]);
-    //   final figures = figureDB.load();
-    //   expect(figures.length, equals(2));
-    //   expect(figures.contains(figureA), isTrue);
-    //   expect(figures.contains(figureB), isTrue);
-    // });
-  });
+  // group("Firestore load: ", () {
+  //   // test("Assert saved figure can be loaded", () async {
+  //   //   figureDB.save(figureA, [figureA]);
+  //   //   figureDB.save(figureB, [figureA, figureB]);
+  //   //   final figures = figureDB.load();
+  //   //   expect(figures.length, equals(2));
+  //   //   expect(figures.contains(figureA), isTrue);
+  //   //   expect(figures.contains(figureB), isTrue);
+  //   // });
+  // });
 }

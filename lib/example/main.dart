@@ -1,8 +1,5 @@
-import 'package:firestore_figure_saver/main.dart';
 import 'package:flutter/widgets.dart';
-import 'package:grapher_user_draw/anchor.dart';
 import 'package:grapher_user_draw/draw_tools/draw_tool_interface.dart';
-import 'package:grapher_user_draw/figure.dart';
 import 'package:mocktail/mocktail.dart';
 
 void main(List<String> args) {
