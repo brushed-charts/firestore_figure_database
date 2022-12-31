@@ -7,31 +7,32 @@ import 'package:grapher_user_draw/figure.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockDrawTool extends Mock implements DrawToolInterface {
-  MockDrawTool(this.maxLength);
+  MockDrawTool(this.maxLength) : name = 'testtool_$maxLength';
   @override
   int maxLength = 2;
   @override
-  String name = 'test tool';
+  String name;
 }
 
 class FakeFigureConverter extends FigureConverter {
   @override
   DrawToolInterface guessToolUsingItsName(String name) {
-    return MockDrawTool(2);
+    final figureLen = int.parse(name.split('_')[1]);
+    return MockDrawTool(figureLen);
   }
 }
 
 void main() {
   final anchorA = Anchor(x: DateTime.utc(2022, 12, 26, 12, 46), y: 1.334532);
   final anchorB = Anchor(x: DateTime.utc(2022, 12, 26, 13, 13), y: 1.32946);
-  final figure = Figure(MockDrawTool(2));
-  figure.add(anchorA);
-  figure.add(anchorB);
+  final baseFigure = Figure(MockDrawTool(2));
+  baseFigure.add(anchorA);
+  baseFigure.add(anchorB);
 
   final expectedJsonFigure = <String, dynamic>{
     'tool_name': 'test tool',
-    'group_id': figure.groupID,
-    'length': figure.length,
+    'group_id': baseFigure.groupID,
+    'length': baseFigure.length,
     'anchors': [
       {
         "datetime": Timestamp.fromDate(DateTime.utc(2022, 12, 26, 12, 46)),
@@ -45,12 +46,12 @@ void main() {
   };
 
   test("Assert figure can be wrote to JSON", () {
-    final jsonFigure = FakeFigureConverter().toJSON(figure);
+    final jsonFigure = FakeFigureConverter().toJSON(baseFigure);
     expect(jsonFigure, equals(expectedJsonFigure));
   });
 
   test("Assert figure can be read from JSON", () {
     final resultingFigure = FakeFigureConverter().fromJSON(expectedJsonFigure);
-    expect(resultingFigure, equals(figure));
+    expect(resultingFigure, equals(baseFigure));
   });
 }

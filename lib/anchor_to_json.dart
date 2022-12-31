@@ -15,7 +15,7 @@ class AnchorConverter {
     return Anchor(x: x, y: y);
   }
 
-  List<Anchor> fromJSONAnchorList(List<Map<String, dynamic>> jsonAnchorList) {
+  List<Anchor> fromJSONAnchorList(List<dynamic> jsonAnchorList) {
     final resultingAnchorList = <Anchor>[];
     for (final jsonAnchor in jsonAnchorList) {
       resultingAnchorList.add(fromJSONAnchor(jsonAnchor));

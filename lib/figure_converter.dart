@@ -3,7 +3,7 @@ import 'package:grapher_user_draw/draw_tools/draw_tool_interface.dart';
 import 'package:grapher_user_draw/figure.dart';
 
 abstract class FigureConverter {
-  Map<String, dynamic> toJSON(Figure figure) {
+  Map<String, Object?> toJSON(Figure figure) {
     final result = <String, dynamic>{
       'tool_name': figure.type,
       'group_id': figure.groupID,
