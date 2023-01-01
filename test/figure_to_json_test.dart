@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firestore_figure_saver/context.dart';
 import 'package:firestore_figure_saver/figure_converter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grapher_user_draw/anchor.dart';
@@ -28,11 +29,13 @@ void main() {
   final baseFigure = Figure(MockDrawTool(2));
   baseFigure.add(anchorA);
   baseFigure.add(anchorB);
+  final context = FigureContext('EUR_USD');
 
   final expectedJsonFigure = <String, dynamic>{
-    'tool_name': 'test tool',
+    'tool_name': 'testtool_2',
     'group_id': baseFigure.groupID,
     'length': baseFigure.length,
+    'context': {'asset_pair': 'EUR_USD'},
     'anchors': [
       {
         "datetime": Timestamp.fromDate(DateTime.utc(2022, 12, 26, 12, 46)),
@@ -46,7 +49,7 @@ void main() {
   };
 
   test("Assert figure can be wrote to JSON", () {
-    final jsonFigure = FakeFigureConverter().toJSON(baseFigure);
+    final jsonFigure = FakeFigureConverter().toJSON(baseFigure, context);
     expect(jsonFigure, equals(expectedJsonFigure));
   });
 

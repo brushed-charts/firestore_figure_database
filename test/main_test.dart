@@ -1,4 +1,5 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:firestore_figure_saver/context.dart';
 import 'package:firestore_figure_saver/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grapher_user_draw/anchor.dart';
@@ -12,9 +13,11 @@ void main() {
   final anchorC = Anchor(x: DateTime.utc(2022, 12, 26, 18, 51), y: 1.421);
   final anchorD = Anchor(x: DateTime.utc(2022, 12, 26, 19, 21), y: 1.362);
   final figureConverter = FakeFigureConverter();
+  final context = FigureContext('EUR_USD');
   late FakeFirebaseFirestore fakeFirestore;
   late Figure figureA;
   late Figure figureB;
+  late Figure figureC;
   late FirestoreFigureDatabase figureDB;
 
   setUp(() {
@@ -28,13 +31,18 @@ void main() {
     figureB.add(anchorC);
     figureB.add(anchorD);
 
-    figureDB = FirestoreFigureDatabase(fakeFirestore, figureConverter);
+    figureC = Figure(MockDrawTool(3));
+    figureC.add(anchorA);
+    figureC.add(anchorC);
+    figureC.add(anchorD);
+
+    figureDB = FirestoreFigureDatabase(fakeFirestore, figureConverter, context);
   });
 
   group("Firestore save: ", () {
     test("Assert firestore document is named using figure groupID", () async {
       figureDB.save(figureA);
-      final jsonFigure = FakeFigureConverter().toJSON(figureA);
+      final jsonFigure = FakeFigureConverter().toJSON(figureA, context);
       final snapshot = await fakeFirestore
           .collection(FirestoreFigureDatabase.collectionPath)
           .doc(figureA.groupID.toString())
@@ -43,7 +51,7 @@ void main() {
     });
 
     test("Check that save function, write data in the database", () async {
-      final jsonFigure = FakeFigureConverter().toJSON(figureA);
+      final jsonFigure = FakeFigureConverter().toJSON(figureA, context);
       figureDB.save(figureA);
       final snapshot = await fakeFirestore
           .collection(FirestoreFigureDatabase.collectionPath)
@@ -57,8 +65,8 @@ void main() {
       figureDB.save(figureB);
       figureA.replace(anchorA, anchorC);
       figureDB.save(figureA);
-      final jsonWithNewAnchor = FakeFigureConverter().toJSON(figureA);
-      final jsonFigureB = FakeFigureConverter().toJSON(figureB);
+      final jsonWithNewAnchor = FakeFigureConverter().toJSON(figureA, context);
+      final jsonFigureB = FakeFigureConverter().toJSON(figureB, context);
       final snapshot = await fakeFirestore
           .collection(FirestoreFigureDatabase.collectionPath)
           .get();
@@ -82,7 +90,7 @@ void main() {
     test("Expect deletion of non existing figure do nothing", () async {
       figureDB.save(figureA);
       final nonSavedFigure = Figure(MockDrawTool(1));
-      final jsonFigureA = FakeFigureConverter().toJSON(figureA);
+      final jsonFigureA = FakeFigureConverter().toJSON(figureA, context);
       figureDB.delete(nonSavedFigure);
 
       final snapshot = await fakeFirestore
@@ -94,13 +102,18 @@ void main() {
   });
 
   group("Firestore load: ", () {
-    test("Assert saved figure can be loaded", () async {
+    test("Assert only figure related context is loaded", () async {
+      figureDB.context = FigureContext('EUR_USD');
       figureDB.save(figureA);
       figureDB.save(figureB);
+      figureDB.context = FigureContext('EUR_GBP');
+      figureDB.save(figureC);
+      figureDB.context = FigureContext('EUR_USD');
       final figures = await figureDB.load();
       expect(figures.length, equals(2));
       expect(figures.contains(figureA), isTrue);
       expect(figures.contains(figureB), isTrue);
+      expect(figures.contains(figureC), isFalse);
     });
     test(
         "Assert deleted figure is not loaded."

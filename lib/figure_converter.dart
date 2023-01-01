@@ -1,13 +1,15 @@
 import 'package:firestore_figure_saver/anchor_to_json.dart';
+import 'package:firestore_figure_saver/context.dart';
 import 'package:grapher_user_draw/draw_tools/draw_tool_interface.dart';
 import 'package:grapher_user_draw/figure.dart';
 
 abstract class FigureConverter {
-  Map<String, Object?> toJSON(Figure figure) {
+  Map<String, Object?> toJSON(Figure figure, FigureContext context) {
     final result = <String, dynamic>{
       'tool_name': figure.type,
       'group_id': figure.groupID,
-      'length': figure.length
+      'length': figure.length,
+      'context': context.toJSON(),
     };
     final anchorList = <Map<String, dynamic>>[];
     for (final anchor in figure.getAll()) {
