@@ -4,7 +4,7 @@ service cloud.firestore {
     match /draw-stock/{stock} {
       allow write
     }
-    match /grapher_figure/{documentID} {
+    match /grapher_figure/{figureID} {
       allow write, read, create, delete
     }
     match /{document=**} {

@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   cloud_firestore: ^4.3.0
   firebase_core: ^2.4.0
+  logging: ">1.0.0 <2.0.0"
 
 dev_dependencies:
   flutter_test:
