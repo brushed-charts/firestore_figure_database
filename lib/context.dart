@@ -1,8 +1,10 @@
 class FigureContext {
   final String assetPair;
-  FigureContext(this.assetPair);
+  final String broker;
+
+  FigureContext(this.assetPair, this.broker);
 
   Map<String, dynamic> toJSON() {
-    return {'asset_pair': assetPair};
+    return {'asset_pair': assetPair, 'broker': broker};
   }
 }

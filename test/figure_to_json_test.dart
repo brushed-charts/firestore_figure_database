@@ -29,13 +29,13 @@ void main() {
   final baseFigure = Figure(MockDrawTool(2));
   baseFigure.add(anchorA);
   baseFigure.add(anchorB);
-  final context = FigureContext('EUR_USD');
+  final context = FigureContext('EUR_USD', 'BROKER_1');
 
   final expectedJsonFigure = <String, dynamic>{
     'tool_name': 'testtool_2',
     'group_id': baseFigure.groupID,
     'length': baseFigure.length,
-    'context': {'asset_pair': 'EUR_USD'},
+    'context': {'asset_pair': 'EUR_USD', 'broker': 'BROKER_1'},
     'anchors': [
       {
         "datetime": Timestamp.fromDate(DateTime.utc(2022, 12, 26, 12, 46)),

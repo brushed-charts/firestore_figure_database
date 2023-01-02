@@ -13,7 +13,7 @@ void main() {
   final anchorC = Anchor(x: DateTime.utc(2022, 12, 26, 18, 51), y: 1.421);
   final anchorD = Anchor(x: DateTime.utc(2022, 12, 26, 19, 21), y: 1.362);
   final figureConverter = FakeFigureConverter();
-  final context = FigureContext('EUR_USD');
+  final context = FigureContext('EUR_USD', 'BROKER_1');
   late FakeFirebaseFirestore fakeFirestore;
   late Figure figureA;
   late Figure figureB;
@@ -103,12 +103,12 @@ void main() {
 
   group("Firestore load: ", () {
     test("Assert only figure related context is loaded", () async {
-      figureDB.context = FigureContext('EUR_USD');
+      figureDB.context = FigureContext('EUR_USD', 'BROKER_1');
       figureDB.save(figureA);
       figureDB.save(figureB);
-      figureDB.context = FigureContext('EUR_GBP');
+      figureDB.context = FigureContext('EUR_GBP', 'BROKER_1');
       figureDB.save(figureC);
-      figureDB.context = FigureContext('EUR_USD');
+      figureDB.context = FigureContext('EUR_USD', 'BROKER_2');
       final figures = await figureDB.load();
       expect(figures.length, equals(2));
       expect(figures.contains(figureA), isTrue);
