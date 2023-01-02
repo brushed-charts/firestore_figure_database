@@ -68,16 +68,17 @@ class _FirestoreFigureDBExampleState extends State<FirestoreFigureDBExample> {
 
   void save() async {
     await Future.delayed(const Duration(milliseconds: 500));
+    if (figureDB == null) return;
     final anchorA = Anchor(x: DateTime(2022, 12, 26, 17, 51), y: 1.324);
     final anchorB = Anchor(x: DateTime(2022, 12, 26, 18, 51), y: 1.374);
     final figure = Figure(DrawToolExample());
     figure.add(anchorA);
     figure.add(anchorB);
-    figureDB?.save(figure);
+    figureDB!.save(figure);
   }
 
   void asyncLoad() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
     final figures = await figureDB?.load();
     debugPrint(figures.toString());
   }

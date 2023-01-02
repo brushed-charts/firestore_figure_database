@@ -24,11 +24,17 @@ class FirestoreInit {
 
   static Future<FirebaseFirestore> getEmulatorInstance() async {
     await _initApp();
-
     final instance = FirebaseFirestore.instance;
-    instance.useFirestoreEmulator('localhost', 8080);
-    _logger.info("Firebase instance is configured "
-        "to use emulator on localhost:8080");
+
+    try {
+      instance.useFirestoreEmulator('localhost', 8080);
+      _logger.info("Firebase instance is configured "
+          "to use emulator on localhost:8080");
+    } on NoSuchMethodError catch (error) {
+      _logger.warning(
+          "Firebase instance emulator got an issue: ${error.toString()}");
+    }
+
     return instance;
   }
 
