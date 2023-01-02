@@ -21,7 +21,10 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for ios - '
@@ -58,14 +61,5 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://brushed-charts.firebaseio.com',
     storageBucket: 'brushed-charts.appspot.com',
     measurementId: 'G-PZ69Q1XNTX',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBrCV_G-xIJqeVRw7RlY6s7YrFxlwJp83s',
-    appId: '1:60116989238:android:f399c286872b6eaf4def97',
-    messagingSenderId: '60116989238',
-    projectId: 'brushed-charts',
-    databaseURL: 'https://brushed-charts.firebaseio.com',
-    storageBucket: 'brushed-charts.appspot.com',
   );
 }

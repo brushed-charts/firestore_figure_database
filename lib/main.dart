@@ -9,11 +9,12 @@ import 'package:logging/logging.dart';
 
 class FirestoreFigureDatabase implements FigureDatabaseInterface {
   static const collectionPath = 'grapher_figure';
-  final FirebaseFirestore? _firestoreInstance;
-  CollectionReference<Figure?>? _figureCollectionRef;
 
-  final _logger = Logger('FirestoreFigureDatabase');
+  final FirebaseFirestore _firestoreInstance;
   final FigureConverter _figureConverter;
+  final _logger = Logger('FirestoreFigureDatabase');
+
+  late CollectionReference<Figure?> _figureCollectionRef;
   FigureContext context;
 
   FirestoreFigureDatabase(
@@ -26,7 +27,7 @@ class FirestoreFigureDatabase implements FigureDatabaseInterface {
   }
 
   void _initCollectionReference() {
-    _figureCollectionRef = _firestoreInstance!
+    _figureCollectionRef = _firestoreInstance
         .collection(collectionPath)
         .withConverter(
             fromFirestore: (snapshot, _) =>
@@ -37,22 +38,12 @@ class FirestoreFigureDatabase implements FigureDatabaseInterface {
 
   @override
   void delete(Figure figureToDelete) {
-    if (_firestoreInstance == null || _figureCollectionRef == null) {
-      _logger.severe("Can't delete the figure,because firestore "
-          "instance is null, maybe it is not initialized yet");
-      return;
-    }
-    _figureCollectionRef!.doc(figureToDelete.groupID.toString()).delete();
+    _figureCollectionRef.doc(figureToDelete.groupID.toString()).delete();
   }
 
   @override
   Future<List<Figure>> load() async {
-    if (_firestoreInstance == null || _figureCollectionRef == null) {
-      _logger.severe("Can't load the figure, because firestore "
-          "instance is null, maybe it is not initialized yet");
-      return [];
-    }
-    final snapshot = await _figureCollectionRef!
+    final snapshot = await _figureCollectionRef
         .where('context.asset_pair', isEqualTo: context.assetPair)
         .get();
     final figures = snapshot.docs.map((e) => e.data()).toList();
@@ -62,11 +53,6 @@ class FirestoreFigureDatabase implements FigureDatabaseInterface {
 
   @override
   void save(Figure newFigure) {
-    if (_firestoreInstance == null || _figureCollectionRef == null) {
-      _logger.severe("Can't save the figure, because firestore "
-          "instance is null, maybe it is not initialized yet");
-      return;
-    }
-    _figureCollectionRef!.doc(newFigure.groupID.toString()).set(newFigure);
+    _figureCollectionRef.doc(newFigure.groupID.toString()).set(newFigure);
   }
 }
