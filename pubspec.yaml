@@ -1,4 +1,4 @@
-name: firestore_figure_saver
+name: firestore_figure_database
 description: Save on firestore all the figure drawn by user
 version: 1.0.0
 publish_to: none

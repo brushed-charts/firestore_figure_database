@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firestore_figure_saver/context.dart';
-import 'package:firestore_figure_saver/figure_converter.dart';
+import 'package:firestore_figure_database/context.dart';
+import 'package:firestore_figure_database/figure_converter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grapher_user_draw/anchor.dart';
 import 'package:grapher_user_draw/draw_tools/draw_tool_interface.dart';
@@ -29,7 +29,7 @@ void main() {
   final baseFigure = Figure(MockDrawTool(2));
   baseFigure.add(anchorA);
   baseFigure.add(anchorB);
-  final context = FigureContext('EUR_USD', 'BROKER_1');
+  const context = FigureContext('EUR_USD', 'BROKER_1');
 
   final expectedJsonFigure = <String, dynamic>{
     'tool_name': 'testtool_2',

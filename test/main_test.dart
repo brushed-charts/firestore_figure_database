@@ -1,6 +1,6 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:firestore_figure_saver/context.dart';
-import 'package:firestore_figure_saver/main.dart';
+import 'package:firestore_figure_database/context.dart';
+import 'package:firestore_figure_database/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grapher_user_draw/anchor.dart';
 import 'package:grapher_user_draw/figure.dart';

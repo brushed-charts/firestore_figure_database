@@ -1,5 +1,5 @@
-import 'package:firestore_figure_saver/anchor_to_json.dart';
-import 'package:firestore_figure_saver/context.dart';
+import 'package:firestore_figure_database/anchor_to_json.dart';
+import 'package:firestore_figure_database/context.dart';
 import 'package:grapher_user_draw/draw_tools/draw_tool_interface.dart';
 import 'package:grapher_user_draw/figure.dart';
 

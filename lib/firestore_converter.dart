@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firestore_figure_saver/context.dart';
-import 'package:firestore_figure_saver/figure_converter.dart';
+import 'package:firestore_figure_database/context.dart';
+import 'package:firestore_figure_database/figure_converter.dart';
 import 'package:grapher_user_draw/figure.dart';
 
 class FirestoreConverter {

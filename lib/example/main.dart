@@ -1,6 +1,6 @@
-import 'package:firestore_figure_saver/context.dart';
-import 'package:firestore_figure_saver/figure_converter.dart';
-import 'package:firestore_figure_saver/initializator.dart';
+import 'package:firestore_figure_database/context.dart';
+import 'package:firestore_figure_database/figure_converter.dart';
+import 'package:firestore_figure_database/initializator.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grapher_user_draw/anchor.dart';
 import 'package:grapher_user_draw/draw_tools/draw_info.dart';
