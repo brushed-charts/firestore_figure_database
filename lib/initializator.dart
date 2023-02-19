@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
@@ -6,7 +7,7 @@ import 'package:logging/logging.dart';
 import 'firebase_options.dart';
 
 class FirestoreInit {
-  static final _logger = Logger('FirestoreInit');
+  static final _logger = Logger('firestore_init');
 
   static _initLogger() {
     _logger.onRecord.listen((record) {
@@ -41,5 +42,25 @@ class FirestoreInit {
   static Future<FirebaseFirestore> getProductionInstance() async {
     await _initApp();
     return FirebaseFirestore.instance;
+  }
+
+  static Future<FirebaseFirestore> getFakeInstance() async {
+    return FakeFirebaseFirestore();
+  }
+
+  static Future<FirebaseFirestore> getInstanceFromProfil(
+      String appProfil) async {
+    switch (appProfil) {
+      case "prod":
+      case "test":
+        return getProductionInstance();
+      case "dev":
+        return getEmulatorInstance();
+      case "unit-test":
+        return getFakeInstance();
+      default:
+        throw ArgumentError("Can't init Firestore because the given profil "
+            "is not valid. Profils are <prod|test|dev|unit-test>");
+    }
   }
 }
